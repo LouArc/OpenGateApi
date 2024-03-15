@@ -23,6 +23,7 @@ app.post("/api/generatecookie", async (req, res) => {
 
 app.post("/api/opengate", async (req, res) => {
   try {
+    console.log("gate opened");
     const { token, id } = req.body; // Assuming user and password are sent in the request body
     await openGate(token, id);
     res.json({ message: "Gate opened" });
