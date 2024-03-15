@@ -41,8 +41,8 @@ async function generateCookie(user, password) {
 async function openGate(token, id) {
   fetch(`https://app.beresident.mx/accesos/open2/${id}.json`, {
     headers: {
-      accept: "/",
-      "accept-language": "en-US,en;q=0.9,es;q=0.8",
+      accept: "*/*",
+      "accept-language": "en,es;q=0.9",
       "sec-ch-ua":
         '"Chromium";v="122", "Not(A:Brand";v="24", "Microsoft Edge";v="122"',
       "sec-ch-ua-mobile": "?0",
