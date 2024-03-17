@@ -39,27 +39,36 @@ async function generateCookie(user, password) {
 }
 
 async function openGate(token, id) {
-  fetch(`https://app.beresident.mx/accesos/open2/${id}.json`, {
-    headers: {
-      accept: "*/*",
-      "accept-language": "en,es;q=0.9",
-      "sec-ch-ua":
-        '"Chromium";v="122", "Not(A:Brand";v="24", "Microsoft Edge";v="122"',
-      "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": '"Windows"',
-      "sec-fetch-dest": "empty",
-      "sec-fetch-mode": "cors",
-      "sec-fetch-site": "same-origin",
-      "x-requested-with": "XMLHttpRequest",
-      Cookie: `"CAKEPHP=${token}"`,
-    },
-    referrer: "https://app.beresident.mx/usuarios/accesos",
-    referrerPolicy: "strict-origin-when-cross-origin",
-    body: null,
-    method: "POST",
-    mode: "cors",
-    credentials: "include",
-  });
+  const response = await fetch(
+    `https://app.beresident.mx/accesos/open2/${id}.json`,
+    {
+      headers: {
+        accept: "*/*",
+        "accept-language": "en,es;q=0.9",
+        "sec-ch-ua":
+          '"Chromium";v="122", "Not(A:Brand";v="24", "Microsoft Edge";v="122"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "x-requested-with": "XMLHttpRequest",
+        Cookie: `"CAKEPHP=${token}"`,
+      },
+      referrer: "https://app.beresident.mx/usuarios/accesos",
+      referrerPolicy: "strict-origin-when-cross-origin",
+      body: null,
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to open gate");
+  }
+
+  return response.json();
 }
 
 module.exports = { generateCookie, openGate };
