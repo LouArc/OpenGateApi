@@ -66,10 +66,10 @@ async function openGate(token, id) {
     );
 
     if (!response.ok) {
-      reject(new Error("Failed to open gate"));
+      reject(new Error("Failed open gate request"));
     }
 
-    resolve(response.json());
+    resolve("Sent open gate request");
   });
 }
 
@@ -109,7 +109,7 @@ async function gateStatus(id, token) {
       reject(new Error("Failed to get gate status"));
     }
 
-    resolve(response.json());
+    resolve(response);
   });
 }
 

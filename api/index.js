@@ -30,15 +30,15 @@ app.post("/api/opengate", (req, res) => {
   openGate(token, id)
     .then(() => {
       gateStatus(token, id)
-        .then((status) => {
-          res.json({ message: status });
+        .then((statusResponse) => {
+          res.json(statusResponse);
         })
         .catch((error) => {
-          res.status(500).json({ error: error.message });
+          res.status(500).json({ error: error });
         });
     })
     .catch((error) => {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error });
     });
 });
 
