@@ -31,14 +31,18 @@ app.post("/api/opengate", (req, res) => {
     .then(() => {
       gateStatus(token, id)
         .then((statusResponse) => {
+          //append message : "Gate opened successfully" to response
+          statusResponse.message = "Gate opened successfully";
           res.json(statusResponse);
         })
         .catch((error) => {
-          res.status(500).json({ error: error });
+          response.error = error;
+          res.status(500).json(response);
         });
     })
     .catch((error) => {
-      res.status(500).json({ error: error });
+      response.error = error;
+      res.status(500).json(response);
     });
 });
 
