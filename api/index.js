@@ -29,7 +29,6 @@ app.post("/api/opengate", (req, res) => {
   const { token, id } = req.body; // Assuming user and password are sent in the request body
   openGate(token, id)
     .then(() => {
-      //call our gateStatus function
       gateStatus(token, id)
         .then((status) => {
           res.json({ message: status });
@@ -42,17 +41,6 @@ app.post("/api/opengate", (req, res) => {
       res.status(500).json({ error: error.message });
     });
 });
-
-// app.post("/api/gateStatus", (req, res) => {
-//   const { token, id } = req.body; // Assuming user and password are sent in the request body
-//   gateStatus(token, id)
-//     .then((status) => {
-//       res.json({ message: status });
-//     })
-//     .catch((error) => {
-//       res.status(500).json({ error: error.message });
-//     });
-// });
 
 app.get("*", (req, res) => {
   res.status(404).json({ error: "Route not found" });
