@@ -37,10 +37,10 @@ app.post("/api/opengate", async (req, res) => {
       const gsResponse = await gateStatus(token, id);
       res.json(gsResponse);
     } catch (error) {
-      res.status(501).json(error.message);
+      res.status(501).json({ error: error.message });
     }
   } catch (error) {
-    res.status(502).json(error.message);
+    res.status(502).json({ error: error.message });
   }
 });
 
