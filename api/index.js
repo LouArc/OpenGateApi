@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const {
   generateCookie,
+  registerToken,
   openGate,
   gateStatus,
 } = require("./services/beresident");
@@ -19,6 +20,7 @@ app.post("/api/generatecookie", async (req, res) => {
   try {
     const { user, password } = req.body;
     const cookie = await generateCookie(user, password);
+    await registerToken(cookie);
     res.json({ cookie }); //even if wrong credentials are sent, the response will be a cookie
   } catch (error) {
     res.status(500).json({ error: error.message });
