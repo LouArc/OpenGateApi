@@ -60,19 +60,13 @@ async function openGate(token, id) {
         cookie: `CAKEPHP=${token}`,
         Referer: "https://app.beresident.mx/usuarios/accesos",
         "Referrer-Policy": "strict-origin-when-cross-origin",
-        //"upgrade-insecure-requests": "1",
-        "user-agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
       },
       body: null,
       method: "POST",
-      //credentials: "include",
-      //mode: "cors",
     }
   );
 
   const data = await response.json();
-  console.log(data);
   if (!response.ok) {
     throw new Error("Failed to send open request to gate");
   }
@@ -115,15 +109,16 @@ async function gateStatus(token, id) {
   );
 
   const data = await response.json();
+  console.log(data);
   if (!response.ok) {
     throw new Error("Failed to get gate status");
   }
 
-  if (data.open_request !== 1) {
+  if (data.open_request != 1) {
     throw new Error("Open request not received");
   }
 
-  return data;
+  return "Gate is opening...";
 }
 
 module.exports = { generateCookie, openGate, gateStatus };

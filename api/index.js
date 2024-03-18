@@ -16,7 +16,6 @@ app.listen(port, () => {
 });
 
 app.post("/api/generatecookie", async (req, res) => {
-  console.log("Request body: ", req.body);
   try {
     const { user, password } = req.body;
     const cookie = await generateCookie(user, password);
