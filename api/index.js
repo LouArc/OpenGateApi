@@ -16,34 +16,34 @@ app.listen(port, () => {
 });
 
 app.post("/api/generatecookie", async (req, res) => {
+  console.log("Request body: ", req.body);
   try {
     const { user, password } = req.body;
     const cookie = await generateCookie(user, password);
-    res.json({ cookie });
+    res.json({ cookie }); //even if wrong credentials are sent, the response will be a cookie
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.post("/api/opengate", (req, res) => {
+app.post("/api/opengate", async (req, res) => {
   const { token, id } = req.body; // Assuming user and password are sent in the request body
-  openGate(token, id)
-    .then(() => {
-      gateStatus(token, id)
-        .then((statusResponse) => {
-          //append message : "Gate opened successfully" to response
-          statusResponse.message = "Gate opened successfully";
-          res.json(statusResponse);
-        })
-        .catch((error) => {
-          response.error = error;
-          res.status(500).json(response);
-        });
-    })
-    .catch((error) => {
-      response.error = error;
-      res.status(500).json(response);
-    });
+  try {
+    const ogResponse = await openGate(token, id);
+    console.log("OGRESPONSE ", ogResponse);
+    if (ogResponse.code === "error") {
+      throw new Error(ogResponse.message);
+    }
+    try {
+      const gsResponse = await gateStatus(token, id);
+      console.log("GSRESPONSE ", gsResponse);
+      res.json(gsResponse);
+    } catch (error) {
+      res.status(501).json(error.message);
+    }
+  } catch (error) {
+    res.status(502).json(error.message);
+  }
 });
 
 app.get("*", (req, res) => {
