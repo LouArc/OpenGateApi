@@ -30,13 +30,11 @@ app.post("/api/opengate", async (req, res) => {
   const { token, id } = req.body; // Assuming user and password are sent in the request body
   try {
     const ogResponse = await openGate(token, id);
-    console.log("OGRESPONSE ", ogResponse);
     if (ogResponse.code === "error") {
       throw new Error(ogResponse.message);
     }
     try {
       const gsResponse = await gateStatus(token, id);
-      console.log("GSRESPONSE ", gsResponse);
       res.json(gsResponse);
     } catch (error) {
       res.status(501).json(error.message);
